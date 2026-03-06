@@ -1,0 +1,6 @@
+{
+  "name": "Automation Project",
+  "type": "maven",
+  "buildName": "Test Execution",
+  "reportName": "Automation Project - Test Report"
+}
