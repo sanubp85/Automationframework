@@ -156,6 +156,12 @@ mvn test -Dcucumber.features="src/test/resources/features/sample.feature"
 mvn test -Dcucumber.filter.tags="@smoke"
 ```
 
+### Run with full cmd
+```bash
+mvn clean test "-Denv=qa" "-DRetry.Enabled=true" "-DRetry.Count=1" "-Dcucumber.filter.tags=@retryfail"
+
+```
+
 ## 📊 Allure Reports
 
 ### Generate and open report
@@ -163,6 +169,8 @@ mvn test -Dcucumber.filter.tags="@smoke"
 mvn allure:report
 mvn allure:serve
 ```
+
+
 
 ### Using batch file
 ```bash
