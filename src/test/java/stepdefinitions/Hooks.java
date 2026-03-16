@@ -8,16 +8,28 @@ import pages.BasePage;
 import utils.BrowserManager;
 import utils.ConfigReader;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 public class Hooks {
     private static BasePage basePage;
-    
+    private static final Map<String, Integer> retryCountMap = new HashMap<>();
+    private static final Map<String, String> historyIdMap = new HashMap<>();
+
     @Before
-    public void setUp() {
+    public void setUp(Scenario scenario) {
         addEnvironmentInfo();
+        String scenarioId = scenario.getId();
+        int retryCount = retryCountMap.getOrDefault(scenarioId, 0);
+        if (retryCount > 0) {
+            int maxRetry = Integer.parseInt(System.getProperty("Retry.Count", "2"));
+            Allure.step("Retry attempt #" + retryCount + " of " + maxRetry);
+        }
         BrowserManager.initBrowser();
         basePage = new BasePage(BrowserManager.getPage());
         basePage.navigateTo(ConfigReader.getBaseUrl());
@@ -26,14 +38,68 @@ public class Hooks {
     @After
     public void tearDown(Scenario scenario) {
         String screenshotName = getScreenshotName(scenario);
-        if (scenario.isFailed() && ConfigReader.isScreenshotOnFailure()) {
-            byte[] screenshot = BrowserManager.getPage().screenshot();
-            Allure.getLifecycle().addAttachment(screenshotName, "image/png", "png", screenshot);
-        } else if (!scenario.isFailed() && ConfigReader.isScreenshotOnPass()) {
-            byte[] screenshot = BrowserManager.getPage().screenshot();
-            Allure.getLifecycle().addAttachment(screenshotName, "image/png", "png", screenshot);
+        String scenarioId = scenario.getId();
+
+        if (scenario.isFailed()) {
+            int currentRetry = retryCountMap.getOrDefault(scenarioId, 0);
+            retryCountMap.put(scenarioId, currentRetry + 1);
+
+            if (ConfigReader.isScreenshotOnFailure()) {
+                byte[] screenshot = BrowserManager.getPage().screenshot();
+                Allure.getLifecycle().addAttachment(screenshotName, "image/png", "png", screenshot);
+            }
+
+            // Capture historyId from first run
+            if (!historyIdMap.containsKey(scenarioId)) {
+                Allure.getLifecycle().getCurrentTestCase().ifPresent(uuid ->
+                    Allure.getLifecycle().updateTestCase(uuid, tc ->
+                        historyIdMap.put(scenarioId, tc.getHistoryId())
+                    )
+                );
+            }
+
+            // Write a separate result JSON for each retry so Allure Retries tab shows all attempts
+            if (currentRetry > 0) {
+                writeRetryResultJson(scenario, scenarioId, currentRetry);
+            }
+        } else {
+            retryCountMap.remove(scenarioId);
+            historyIdMap.remove(scenarioId);
+            if (ConfigReader.isScreenshotOnPass()) {
+                byte[] screenshot = BrowserManager.getPage().screenshot();
+                Allure.getLifecycle().addAttachment(screenshotName, "image/png", "png", screenshot);
+            }
         }
         BrowserManager.closeBrowser();
+    }
+
+    private void writeRetryResultJson(Scenario scenario, String scenarioId, int retryCount) {
+        try {
+            int maxRetry = Integer.parseInt(System.getProperty("Retry.Count", "2"));
+            String historyId = historyIdMap.getOrDefault(scenarioId, scenarioId);
+            String uuid = UUID.randomUUID().toString();
+            long now = System.currentTimeMillis();
+
+            String json = "{" +
+                "\"uuid\":\"" + uuid + "\"," +
+                "\"historyId\":\"" + historyId + "\"," +
+                "\"name\":\"" + scenario.getName() + "\"," +
+                "\"fullName\":\"" + scenarioId + "\"," +
+                "\"status\":\"failed\"," +
+                "\"statusDetails\":{\"flaky\":true,\"message\":\"Retry attempt " + retryCount + " of " + maxRetry + "\"}," +
+                "\"labels\":[" +
+                    "{\"name\":\"feature\",\"value\":\"" + scenario.getId().split(";")[0] + "\"}," +
+                    "{\"name\":\"story\",\"value\":\"" + scenario.getName() + "\"}," +
+                    "{\"name\":\"Retry\",\"value\":\"Attempt " + retryCount + " of " + maxRetry + "\"}" +
+                "]," +
+                "\"start\":" + (now - 1000) + "," +
+                "\"stop\":" + now +
+            "}";
+
+            Files.write(Paths.get("target/allure-results/" + uuid + "-result.json"), json.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private String getScreenshotName(Scenario scenario) {

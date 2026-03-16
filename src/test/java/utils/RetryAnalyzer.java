@@ -6,16 +6,25 @@ import org.testng.ITestResult;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
     private int retryCount = 0;
-    private static final int maxRetryCount = 2;
+
+    public static final ThreadLocal<Integer> CURRENT_RETRY = new ThreadLocal<>();
+    public static final ThreadLocal<Integer> MAX_RETRY = new ThreadLocal<>();
 
     @Override
     public boolean retry(ITestResult result) {
-        if (retryCount < maxRetryCount) {
+        boolean retryEnabled = Boolean.parseBoolean(
+            System.getProperty("Retry.Enabled", String.valueOf(ConfigReader.isRetryEnabled())));
+        int maxRetryCount = Integer.parseInt(
+            System.getProperty("Retry.Count", "2"));
+
+        if (retryEnabled && retryCount < maxRetryCount) {
             retryCount++;
-            result.setAttribute("RETRY_COUNT", retryCount);
-            Allure.step("Retry attempt #" + retryCount + " of " + maxRetryCount);
+            CURRENT_RETRY.set(retryCount);
+            MAX_RETRY.set(maxRetryCount);
             return true;
         }
+        CURRENT_RETRY.remove();
+        MAX_RETRY.remove();
         return false;
     }
 }
