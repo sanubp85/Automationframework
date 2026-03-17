@@ -22,7 +22,7 @@ public class ConfigReader {
     private static void loadProperties() {
         properties = new Properties();
         try {
-            String configPath = "src/test/resources/config/" + ENV + ".properties";
+            String configPath = "src/test/resources/config/" + ENV + "/" + ENV + ".properties";
             FileInputStream fis = new FileInputStream(configPath);
             properties.load(fis);
             fis.close();
@@ -56,7 +56,15 @@ public class ConfigReader {
      * @author Prasanna Kumar
      */
     public static String getBrowser() {
-        return properties.getProperty("browser", "chromium");
+        try {
+            Properties envProps = new Properties();
+            FileInputStream fis = new FileInputStream("src/test/resources/environment.properties");
+            envProps.load(fis);
+            fis.close();
+            return envProps.getProperty("Browser", "chrome");
+        } catch (IOException e) {
+            return "chrome";
+        }
     }
 
     /**

@@ -8,8 +8,8 @@ A robust test automation framework built with Playwright, Cucumber, and TestNG f
 - **Cucumber BDD** - Behavior-driven development with Gherkin syntax
 - **TestNG** - Powerful test execution and management
 - **Allure Reports** - Rich test reporting with screenshots
-- **Multi-Browser Support** - Chrome, Firefox, and WebKit
-- **Multi-Environment** - QA, Dev, and Prod configurations
+- **Multi-Browser Support** - Chrome, Edge, Firefox, and WebKit
+- **Multi-Environment** - QA, UAT, Dev, and Prod configurations
 - **Screenshot Management** - XrayID-based screenshot naming
 - **Retry Mechanism** - Automatic retry for failed tests
 - **Page Object Model** - Maintainable and scalable architecture
@@ -23,38 +23,44 @@ A robust test automation framework built with Playwright, Cucumber, and TestNG f
 ## 🏗️ Project Structure
 
 ```
-Template/
+playwright-automation-framework/
 ├── src/
 │   ├── main/java/
-│   │   ├── pages/          # Page Object classes
+│   │   ├── pages/                  # Page Object classes
 │   │   │   └── BasePage.java
-│   │   └── utils/          # Utility classes
+│   │   └── utils/                  # All utility classes
 │   │       ├── BrowserManager.java
-│   │       └── ConfigReader.java
+│   │       ├── ConfigReader.java
+│   │       ├── AllureRetryListener.java
+│   │       ├── RetryAnalyzer.java
+│   │       └── RetryListener.java
 │   └── test/
 │       ├── java/
-│       │   ├── runners/    # TestNG runners
+│       │   ├── runners/            # TestNG runners
 │       │   │   ├── TestRunner.java
 │       │   │   └── FailedTestRunner.java
-│       │   ├── stepdefinitions/  # Cucumber step definitions
-│       │   │   ├── Hooks.java
-│       │   │   └── SampleSteps.java
-│       │   └── utils/      # Test utilities
-│       │       ├── AllureRetryListener.java
-│       │       ├── RetryAnalyzer.java
-│       │       └── RetryListener.java
+│       │   └── stepdefinitions/    # Cucumber step definitions
+│       │       ├── Hooks.java
+│       │       └── SampleSteps.java
 │       └── resources/
-│           ├── config/     # Environment configurations
-│           │   ├── qa.properties
-│           │   ├── dev.properties
-│           │   └── prod.properties
-│           ├── features/   # Cucumber feature files
-│           │   └── sample.feature
+│           ├── config/             # Environment configurations
+│           │   ├── qa/
+│           │   │   └── qa.properties
+│           │   ├── dev/
+│           │   │   └── dev.properties
+│           │   ├── uat/
+│           │   │   └── uat.properties
+│           │   └── prod/
+│           │       └── prod.properties
+│           ├── features/           # Cucumber feature files
+│           │   ├── sample.feature
+│           │   └── ui/
+│           │       └── ui.feature
 │           ├── allure.properties
 │           ├── categories.json
 │           ├── environment.properties
 │           └── executor.json
-├── .allure/               # Allure CLI
+├── .allure/                        # Allure CLI
 ├── pom.xml
 ├── testng.xml
 └── README.md
@@ -62,22 +68,32 @@ Template/
 
 ## ⚙️ Configuration
 
-### Environment Properties (`src/test/resources/config/`)
+### Environment Properties (`src/test/resources/config/{env}/{env}.properties`)
+
+Each environment only contains environment-specific settings:
 
 **qa.properties**
 ```properties
 base.url=https://example.com
-browser=chrome
 headless=false
 ```
 
-### Test Settings (`src/test/resources/environment.properties`)
+**prod.properties**
+```properties
+base.url=https://prod.example.com
+headless=true
+```
+
+### Common Settings (`src/test/resources/environment.properties`)
+
+Browser and other common settings are maintained here and apply to all environments:
 
 ```properties
 Project=Automation Project
 Environment=QA
 Browser=Chrome
 Test.Framework=Cucumber+TestNG
+Language=Java
 Retry.Enabled=false
 Retry.Count=2
 Screenshot.OnFailure=true
@@ -103,19 +119,23 @@ Scenario: Navigate to a website
 
 Supported browsers:
 - Chrome (default)
+- Edge
 - Firefox
 - WebKit
 
-Configure in properties file:
+Configure browser in `environment.properties` — applies to all environments:
 ```properties
-browser=chrome
+Browser=Chrome
 ```
+
+Supported values: `chrome`, `chromium`, `edge`, `firefox`, `webkit`
 
 ### 3. Multi-Environment Support
 
 Switch environments using Maven:
 ```bash
 mvn test -Denv=qa
+mvn test -Denv=uat
 mvn test -Denv=dev
 mvn test -Denv=prod
 ```
@@ -141,7 +161,7 @@ mvn clean test -Denv=qa
 ```
 
 ### Run in headless mode
-Update properties:
+Update in env properties file:
 ```properties
 headless=true
 ```
@@ -154,6 +174,11 @@ mvn test -Dcucumber.features="src/test/resources/features/sample.feature"
 ### Run with tags
 ```bash
 mvn test -Dcucumber.filter.tags="@smoke"
+```
+
+### Run with full cmd
+```bash
+mvn clean test "-Denv=qa" "-DRetry.Enabled=true" "-DRetry.Count=1" "-Dcucumber.filter.tags=@p1"
 ```
 
 ## 📊 Allure Reports
@@ -222,9 +247,10 @@ public class LoginPage extends BasePage {
 - `closeBrowser()` - Close browser and cleanup
 
 ### ConfigReader
-- `getBaseUrl()` - Get base URL
-- `getBrowser()` - Get browser name
-- `isHeadless()` - Check headless mode
+- `getBaseUrl()` - Get base URL from env properties
+- `getBrowser()` - Get browser name from environment.properties
+- `isHeadless()` - Check headless mode from env properties
+- `isRetryEnabled()` - Check retry enabled from environment.properties
 - `isScreenshotOnFailure()` - Check screenshot on failure
 - `isScreenshotOnPass()` - Check screenshot on pass
 
@@ -249,7 +275,7 @@ public class LoginPage extends BasePage {
 
 ### Browser not launching
 - Ensure Playwright browsers are installed
-- Check browser configuration in properties
+- Check `Browser` value in `environment.properties` (supported: `chrome`, `edge`, `firefox`, `webkit`)
 
 ### Tests not running
 - Verify TestNG XML configuration
@@ -258,6 +284,10 @@ public class LoginPage extends BasePage {
 ### Allure report not generating
 - Ensure Allure CLI is in `.allure` folder
 - Check `allure-results` directory exists
+
+### mvn clean fails
+- A previous run may still be holding a file lock
+- Close any open browser windows or reports and retry
 
 ## 👤 Author
 
