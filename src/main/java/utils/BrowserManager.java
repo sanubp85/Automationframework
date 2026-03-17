@@ -23,6 +23,14 @@ public class BrowserManager {
         BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(headless);
         
         switch (browserName.toLowerCase()) {
+            case "chrome":
+            case "chromium":
+                browser = playwright.chromium().launch(options);
+                break;
+            case "edge":
+                browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                    .setHeadless(headless).setChannel("msedge"));
+                break;
             case "firefox":
                 browser = playwright.firefox().launch(options);
                 break;
@@ -30,7 +38,7 @@ public class BrowserManager {
                 browser = playwright.webkit().launch(options);
                 break;
             default:
-                browser = playwright.chromium().launch(options);
+                throw new RuntimeException("Unsupported browser: " + browserName);
         }
         
         context = browser.newContext();

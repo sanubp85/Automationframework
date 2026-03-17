@@ -1,7 +1,5 @@
 package utils;
 
-import org.testng.ISuite;
-import org.testng.ISuiteListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
@@ -11,17 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
-public class AllureRetryListener implements ITestListener, ISuiteListener {
-
-    // Called before each <test> block in testng.xml starts
-    @Override
-    public void onStart(ISuite suite) {
-    }
-
-    // Called after each <test> block in testng.xml finishes
-    @Override
-    public void onFinish(ISuite suite) {
-    }
+public class AllureRetryListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {

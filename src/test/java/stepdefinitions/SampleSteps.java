@@ -14,22 +14,6 @@ public class SampleSteps {
         basePage.navigateTo(ConfigReader.getBaseUrl());
     }
 
-    @Given("I navigate to {string}")
-    public void navigateToUrl(String url) {
-        basePage = new BasePage(BrowserManager.getPage());
-        basePage.navigateTo(url);
-    }
-
-    @When("I click on {string}")
-    public void clickElement(String selector) {
-        basePage.click(selector);
-    }
-
-    @Then("I should see {string}")
-    public void verifyElementVisible(String selector) {
-        assert basePage.isVisible(selector);
-    }
-
     @Then("I should see URL contains {string}")
     public void verifyUrlContains(String expectedUrl) {
         String actualUrl = BrowserManager.getPage().url();
