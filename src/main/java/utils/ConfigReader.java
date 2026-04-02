@@ -50,12 +50,25 @@ public class ConfigReader {
         return properties.getProperty("base.url");
     }
 
+    public static String getPeople360Url() {
+        return properties.getProperty("base.people360.url");
+    }
+
     /**
      * Get browser from config
      * @return Browser name
      * @author Prasanna Kumar
      */
     public static String getBrowser() {
+        // allow overriding browser via system property: -Dbrowser=chrome
+        String browserFromSys = System.getProperty("browser");
+        if (browserFromSys == null || browserFromSys.isEmpty()) {
+            browserFromSys = System.getProperty("Browser");
+        }
+        if (browserFromSys != null && !browserFromSys.isEmpty()) {
+            return browserFromSys;
+        }
+
         try {
             Properties envProps = new Properties();
             FileInputStream fis = new FileInputStream("src/test/resources/environment.properties");
@@ -82,14 +95,30 @@ public class ConfigReader {
      * @author Prasanna Kumar
      */
     public static boolean isRetryEnabled() {
+        String sys = System.getProperty("Retry.Enabled");
+        if (sys != null && !sys.trim().isEmpty()) return Boolean.parseBoolean(sys.trim());
         try {
             Properties envProps = new Properties();
             FileInputStream fis = new FileInputStream("src/test/resources/environment.properties");
             envProps.load(fis);
             fis.close();
-            return Boolean.parseBoolean(envProps.getProperty("Retry.Enabled", "false"));
+            return Boolean.parseBoolean(envProps.getProperty("Retry.Enabled", "false").trim());
         } catch (IOException e) {
             return false;
+        }
+    }
+
+    public static int getRetryCount() {
+        String sys = System.getProperty("Retry.Count");
+        if (sys != null && !sys.trim().isEmpty()) return Integer.parseInt(sys.trim());
+        try {
+            Properties envProps = new Properties();
+            FileInputStream fis = new FileInputStream("src/test/resources/environment.properties");
+            envProps.load(fis);
+            fis.close();
+            return Integer.parseInt(envProps.getProperty("Retry.Count", "2").trim());
+        } catch (IOException e) {
+            return 2;
         }
     }
 

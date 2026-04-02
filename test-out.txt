@@ -1,0 +1,306 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.tonic:playwright-framework >-------------------
+[INFO] Building playwright-framework 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] Parameter 'reportName' is unknown for plugin 'allure-maven:2.12.0:report (allure-report)'
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ playwright-framework ---
+[INFO] Deleting c:\Users\Sanu B P\Project\playwright-automation-framework\target
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ playwright-framework ---
+[INFO] skip non existing resourceDirectory c:\Users\Sanu B P\Project\playwright-automation-framework\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ playwright-framework ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 9 source files with javac [debug target 11] to target\classes
+[WARNING] location of system modules is not set in conjunction with -source 11
+  not setting the location of system modules may lead to class files that cannot run on JDK 11
+    --release 11 is recommended instead of -source 11 -target 11 because it sets the location of system modules automatically
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ playwright-framework ---
+[INFO] Copying 11 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ playwright-framework ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 7 source files with javac [debug target 11] to target\test-classes
+[WARNING] location of system modules is not set in conjunction with -source 11
+  not setting the location of system modules may lead to class files that cannot run on JDK 11
+    --release 11 is recommended instead of -source 11 -target 11 because it sets the location of system modules automatically
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ playwright-framework ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestSuite
+
+@api @regression @XrayID:L003 @smoke @p1
+Scenario: Get a valid user                                 # src/test/resources/features/api/users.feature:4
+  Given I send a GET request "https://dummyjson.com/users" # stepdefinitions.ApiSteps.sendGetRequest(java.lang.String)
+  Then the API response status should be 200               # stepdefinitions.ApiSteps.verifyStatusCode(int)
+  And the response body should contain first name "Emily"  # stepdefinitions.ApiSteps.verifyFirstName(java.lang.String)
+
+@regression @smoke @p1 @XrayID:L003
+Scenario: User logs in and creates a new estimate                       # src/test/resources/features/login.feature:26
+  Given I navigate to the login page "https://mmw365.test.fence.cloud/" # stepdefinitions.EstimateSteps.navigateToLoginPage(java.lang.String)
+  When I login with email "raj@vrize.com" and password "2026VRIZE"      # stepdefinitions.EstimateSteps.loginWithCredentials(java.lang.String,java.lang.String)
+  And I click on Create New and select Estimate                         # stepdefinitions.EstimateSteps.clickCreateNewAndSelectEstimate()
+  And I enter customer details "Sanu" and "test"                        # stepdefinitions.EstimateSteps.enterCustomerDetails(java.lang.String,java.lang.String)
+  And I click on Use Map Coordinates on estimate form                   # stepdefinitions.EstimateSteps.clickUseMapCoordinatesOnEstimate()
+  And I click on Use for Location                                       # stepdefinitions.EstimateSteps.clickUseForLocation()
+  And I create a new estimate                                           # stepdefinitions.EstimateSteps.createNewEstimate()
+  And I verify the Enter Siteplan button                                # stepdefinitions.EstimateSteps.verifyEnterSiteplanButton()
+  And I click on Enter Siteplan                                         # stepdefinitions.EstimateSteps.clickEnterSiteplan()
+selectBlueGrid - URL: https://mmw365.test.fence.cloud/project/s0UzbVHM2o?last=jobpack
+Selects: select[0] name=item_ds_key opts=All Datasets|FSG Ameristar (Ornamental)|FSG Chain Link (Chainlink)|FSG Jerith (Ornamental)|FSG Wheatland/Everguard (Vinyl)|FSG Wood (Wood)|Master Halco (Chainlink)|MM Grdsmn, SecrWeld, Statsmn (Ornamental)|Trex (Composite)
+select[1] name=item_display_mode opts=Part Number Preference|Source Number
+select[2] name=user_id opts=Weston Stadstad|Chris|Jason|Brian|Ryan|Don|Alex|Shawn|Holly Greethurst|Eugene Sheely|Edmund Rose|Ben Schultz|Christy Sackett|Chris|Ryan|Julio|David|VRIZE|Mark
+select[3] name=comment_type opts=Call|Text|Email|Note|Misc
+select[4] name=material_type opts=Ornamental|Chain Link|Wood|Vinyl|Composite
+select[5] name=material_framework opts=MM Ornamental|Master Halco|FSG Ameristar|FSG Jerith|FSG Wood|FSG Everguard|FSG Everguard Post & Rail|FSG Wheatland Profiles|Trex|FSG Chain Link|FSG - Ornamental - V|Chain link Pro
+select[6] name= opts=All|FSG Ameristar (Ornamental)|FSG Chain Link (Chainlink)|FSG Jerith (Ornamental)|FSG Wheatland/Everguard (Vinyl)|FSG Wood (Wood)|Master Halco (Chainlink)|MM Grdsmn, SecrWeld, Statsmn (Ornamental)|Trex (Composite)
+select[7] name= opts=All|Chainlink|Vinyl|Wood|Ornamental|Misc
+select[8] name= opts=
+select[9] name= opts=January|February|March|April|May|June|July|August|September|October|November|December
+  And I select BlueGrid from dropdown                                   # stepdefinitions.EstimateSteps.selectBlueGrid()
+drawOnCanvas - URL: https://mmw365.test.fence.cloud/project/s0UzbVHM2o?last=jobpack, canvas count: 0
+  BUTTON: ×
+  BUTTON: Manage Job
+  BUTTON: Rename Estimate
+  BUTTON: Duplicate Estimate
+  BUTTON: Enter Siteplan
+  BUTTON: Select Materials
+  BUTTON: Select Labor Profile
+  BUTTON: Estimate Data
+  BUTTON:  
+        Get Real-Time Costs
+  BUTTON: Unit Price
+  BUTTON: Total Price
+  BUTTON: Clear
+  BUTTON: Search
+  BUTTON: Add
+  BUTTON: ×
+  BUTTON: Close
+  BUTTON: Select
+  BUTTON: Drop files here to upload
+  BUTTON: Generate
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Estimate Data
+  BUTTON: Recalculate Estimate
+  BUTTON: Add
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: View
+  BUTTON: New
+  BUTTON: Select Cost Updates
+  BUTTON: ×
+  BUTTON: Reset Materials
+  BUTTON: Cancel
+  BUTTON: Specify Materials
+  BUTTON: Estimate
+  BUTTON: ×
+  BUTTON: Apply
+  BUTTON: ×
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Close
+  BUTTON: Apply
+  BUTTON: ×
+  BUTTON: Copy CSV
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Close
+  BUTTON: Select item
+  BUTTON: ×
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Set
+  BUTTON: Reset
+  BUTTON: Apply
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Check All
+  BUTTON: Uncheck All
+  BUTTON: Send
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Rename Estimate
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Save Estimate
+  BUTTON: Close
+  BUTTON: ×
+  BUTTON: Cancel
+  BUTTON: ×
+  BUTTON: Cancel
+  BUTTON: Watch Video
+  BUTTON: Back to Text
+  BUTTON: Close
+  BUTTON: Cancel
+  BUTTON: Submit
+  And user draws on canvas using coordinates "300,100" and "300,250"    # stepdefinitions.EstimateSteps.drawOnCanvas(java.lang.String,java.lang.String)
+      com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\progress.js:87:26)
+    at Frame.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\frames.js:619:23)
+    at FrameDispatcher.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\frameDispatcher.js:100:103)
+    at FrameDispatcher._handleCommand (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:84:40)
+    at DispatcherConnection.dispatch (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:351:39)
+}
+Call log:
+- waiting for locator("canvas").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:129)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:594)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:594)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:590)
+	at pages.Estimate.EstimatePage.drawOnCanvas(EstimatePage.java:134)
+	at stepdefinitions.EstimateSteps.drawOnCanvas(EstimateSteps.java:70)
+	at ?.user draws on canvas using coordinates "300,100" and "300,250"(file:///c:/Users/Sanu%20B%20P/Project/playwright-automation-framework/src/test/resources/features/login.feature:37)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\progress.js:87:26)
+    at Frame.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\frames.js:619:23)
+    at FrameDispatcher.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\frameDispatcher.js:100:103)
+    at FrameDispatcher._handleCommand (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:84:40)
+    at DispatcherConnection.dispatch (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:351:39)
+}
+Call log:
+- waiting for locator("canvas").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:252)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:209)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:129)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:594)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:594)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:590)
+	at pages.Estimate.EstimatePage.drawOnCanvas(EstimatePage.java:134)
+	at stepdefinitions.EstimateSteps.drawOnCanvas(EstimateSteps.java:70)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.TestMethodWithDataProviderMethodWorker.call(TestMethodWithDataProviderMethodWorker.java:80)
+	at org.testng.internal.invokers.TestMethodWithDataProviderMethodWorker.call(TestMethodWithDataProviderMethodWorker.java:17)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+
+  And user continues drawing using "300,250" and "50,250"               # stepdefinitions.EstimateSteps.continueDrawing(java.lang.String,java.lang.String)
+  And user continues drawing using "50,250" and "50,100"                # stepdefinitions.EstimateSteps.continueDrawing(java.lang.String,java.lang.String)
+  And user continues drawing using "50,100" and "300,100"               # stepdefinitions.EstimateSteps.continueDrawing(java.lang.String,java.lang.String)
+  Then I click on Save button                                           # stepdefinitions.EstimateSteps.clickSaveButton()
+[TestNG-PoolService-0] ERROR io.qameta.allure.AllureLifecycle - Could not update test case: test case with uuid Logind896d21f-a0be-49ff-a3f5-dea3d72333cbAFTERstepdefinitions.Hooks.tearDown(io.cucumber.java.Scenario) not found
+[main] WARN org.testng.internal.Utils - The test method 'io.cucumber.testng.AbstractTestNGCucumberTests.runScenario' will be skipped since its data provider 'scenarios' returned an empty array or iterator. 
+[main] WARN org.testng.internal.Utils - The test method 'io.cucumber.testng.AbstractTestNGCucumberTests.runScenario' will be skipped since its data provider 'scenarios' returned an empty array or iterator. 
+[main] WARN org.testng.internal.Utils - The test method 'io.cucumber.testng.AbstractTestNGCucumberTests.runScenario' will be skipped since its data provider 'scenarios' returned an empty array or iterator. 
+[main] WARN org.testng.internal.Utils - The test method 'io.cucumber.testng.AbstractTestNGCucumberTests.runScenario' will be skipped since its data provider 'scenarios' returned an empty array or iterator. 
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 111.344 s <<< FAILURE! - in TestSuite
+[ERROR] runScenario(runners.TestRunner)  Time elapsed: 107.853 s  <<< FAILURE!
+com.microsoft.playwright.TimeoutError: 
+Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\progress.js:87:26)
+    at Frame.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\frames.js:619:23)
+    at FrameDispatcher.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\frameDispatcher.js:100:103)
+    at FrameDispatcher._handleCommand (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:84:40)
+    at DispatcherConnection.dispatch (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:351:39)
+}
+Call log:
+- waiting for locator("canvas").first() to be visible
+
+Caused by: com.microsoft.playwright.TimeoutError: 
+Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\progress.js:87:26)
+    at Frame.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\frames.js:619:23)
+    at FrameDispatcher.waitForSelector (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\frameDispatcher.js:100:103)
+    at FrameDispatcher._handleCommand (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:84:40)
+    at DispatcherConnection.dispatch (C:\Users\SANUBP~1\AppData\Local\Temp\playwright-java-319695629168829545\package\lib\server\dispatchers\dispatcher.js:351:39)
+}
+Call log:
+- waiting for locator("canvas").first() to be visible
+
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR] runners.TestRunner.runScenario(runners.TestRunner)
+[INFO]   Run 1: PASS
+[ERROR]   Run 2: TestRunner.runScenario » Timeout Error {
+  message='Timeout 30000ms exceeded.
+...
+[INFO] 
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[ERROR] There are test failures.
+
+Please refer to c:\Users\Sanu B P\Project\playwright-automation-framework\target\surefire-reports for the individual test results.
+Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[INFO] 
+[INFO] --- allure:2.12.0:report (allure-report) @ playwright-framework ---
+[INFO] Allure installation directory c:\Users\Sanu B P\Project\playwright-automation-framework/.allure
+[INFO] Try to finding out allure 2.20.1
+[INFO] Generate Allure report (report) with version 2.20.1
+[INFO] Generate Allure report to c:\Users\Sanu B P\Project\playwright-automation-framework\target/allure-report
+[INFO] Found results directory c:\Users\Sanu B P\Project\playwright-automation-framework\target\allure-results
+[INFO] Generate report to c:\Users\Sanu B P\Project\playwright-automation-framework\target\allure-report
+Report successfully generated to c:\Users\Sanu B P\Project\playwright-automation-framework\target\allure-report
+[INFO] Report generated successfully.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:59 min
+[INFO] Finished at: 2026-03-30T15:56:22+05:30
+[INFO] ------------------------------------------------------------------------

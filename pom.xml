@@ -13,6 +13,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <allure.version>2.24.0</allure.version>
+        <threadCount>1</threadCount>
+        <browser>chrome</browser>
     </properties>
 
     <dependencies>
@@ -46,6 +48,18 @@
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+        <!-- Simple SLF4J binding to avoid missing StaticLoggerBinder warning -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,6 +73,18 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <properties>
+                        <property>
+                            <name>dataproviderthreadcount</name>
+                            <value>${threadCount}</value>
+                        </property>
+                    </properties>
+                    <systemPropertyVariables>
+                        <threadCount>${threadCount}</threadCount>
+                        <browser>${browser}</browser>
+                        <Retry.Enabled>${Retry.Enabled}</Retry.Enabled>
+                        <Retry.Count>${Retry.Count}</Retry.Count>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>

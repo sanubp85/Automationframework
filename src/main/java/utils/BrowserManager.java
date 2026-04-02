@@ -1,27 +1,27 @@
 package utils;
 
 import com.microsoft.playwright.*;
+import java.nio.file.Paths;
 
 /**
  * @author Prasanna Kumar
  */
 public class BrowserManager {
-    private static Playwright playwright;
-    private static Browser browser;
-    private static BrowserContext context;
-    private static Page page;
+    private static final String STORAGE_STATE_PATH = "auth/storageState.json";
+    private static final ThreadLocal<Playwright> playwrightTL = new ThreadLocal<>();
+    private static final ThreadLocal<Browser> browserTL = new ThreadLocal<>();
+    private static final ThreadLocal<BrowserContext> contextTL = new ThreadLocal<>();
+    private static final ThreadLocal<Page> pageTL = new ThreadLocal<>();
 
-    /**
-     * Initialize browser based on configuration
-     * @author Prasanna Kumar
-     */
     public static void initBrowser() {
-        playwright = Playwright.create();
-        String browserName = ConfigReader.getBrowser();
+        Playwright playwright = Playwright.create();
+        playwrightTL.set(playwright);
+
+        String browserName = System.getProperty("browser", ConfigReader.getBrowser());
         boolean headless = ConfigReader.isHeadless();
-        
         BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(headless);
-        
+
+        Browser browser;
         switch (browserName.toLowerCase()) {
             case "chrome":
             case "chromium":
@@ -40,28 +40,39 @@ public class BrowserManager {
             default:
                 throw new RuntimeException("Unsupported browser: " + browserName);
         }
-        
-        context = browser.newContext();
-        page = context.newPage();
+
+        browserTL.set(browser);
+        BrowserContext context = browser.newContext();
+        contextTL.set(context);
+        contextTL.set(context);
+        pageTL.set(context.newPage());
     }
 
-    /**
-     * Get current page instance
-     * @return Page instance
-     * @author Prasanna Kumar
-     */
+    public static void saveStorageState() {
+        try {
+            java.nio.file.Files.createDirectories(Paths.get("auth"));
+            contextTL.get().storageState(new BrowserContext.StorageStateOptions()
+                .setPath(Paths.get(STORAGE_STATE_PATH)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Page getPage() {
-        return page;
+        return pageTL.get();
     }
 
-    /**
-     * Close browser and cleanup resources
-     * @author Prasanna Kumar
-     */
+    public static void setPage(Page page) {
+        pageTL.set(page);
+    }
+
     public static void closeBrowser() {
-        if (page != null) page.close();
-        if (context != null) context.close();
-        if (browser != null) browser.close();
-        if (playwright != null) playwright.close();
+        try { if (contextTL.get() != null) contextTL.get().close(); } catch (Exception ignored) {}
+        try { if (browserTL.get() != null) browserTL.get().close(); } catch (Exception ignored) {}
+        try { if (playwrightTL.get() != null) playwrightTL.get().close(); } catch (Exception ignored) {}
+        pageTL.remove();
+        contextTL.remove();
+        browserTL.remove();
+        playwrightTL.remove();
     }
 }
