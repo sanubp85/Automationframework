@@ -4,7 +4,7 @@ import com.microsoft.playwright.*;
 import java.nio.file.Paths;
 
 /**
- * @author Prasanna Kumar
+ * @author Sanu B P
  */
 public class BrowserManager {
     private static final String STORAGE_STATE_PATH = "auth/storageState.json";

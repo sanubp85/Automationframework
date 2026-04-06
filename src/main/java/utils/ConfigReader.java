@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * @author Prasanna Kumar
+ * @author Sanu B P
  */
 public class ConfigReader {
     private static Properties properties;
@@ -17,7 +17,7 @@ public class ConfigReader {
 
     /**
      * Load properties based on environment
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     private static void loadProperties() {
         properties = new Properties();
@@ -35,7 +35,7 @@ public class ConfigReader {
      * Get property value by key
      * @param key Property key
      * @return Property value
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static String getProperty(String key) {
         return properties.getProperty(key);
@@ -44,7 +44,7 @@ public class ConfigReader {
     /**
      * Get base URL from config
      * @return Base URL
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static String getBaseUrl() {
         return properties.getProperty("base.url");
@@ -57,7 +57,7 @@ public class ConfigReader {
     /**
      * Get browser from config
      * @return Browser name
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static String getBrowser() {
         // allow overriding browser via system property: -Dbrowser=chrome
@@ -83,7 +83,7 @@ public class ConfigReader {
     /**
      * Get headless mode from config
      * @return true if headless, false otherwise
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static boolean isHeadless() {
         return Boolean.parseBoolean(properties.getProperty("headless", "false"));
@@ -92,7 +92,7 @@ public class ConfigReader {
     /**
      * Check if retry is enabled
      * @return true if retry enabled, false otherwise
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static boolean isRetryEnabled() {
         String sys = System.getProperty("Retry.Enabled");
@@ -125,7 +125,7 @@ public class ConfigReader {
     /**
      * Check if screenshot on failure is enabled
      * @return true if enabled, false otherwise
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static boolean isScreenshotOnFailure() {
         try {
@@ -142,7 +142,7 @@ public class ConfigReader {
     /**
      * Check if screenshot on pass is enabled
      * @return true if enabled, false otherwise
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public static boolean isScreenshotOnPass() {
         try {

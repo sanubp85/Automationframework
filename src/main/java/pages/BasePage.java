@@ -4,7 +4,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 /**
- * @author Prasanna Kumar
+ * @author Sanu B P
  */
 public class BasePage {
     protected Page page;
@@ -12,7 +12,7 @@ public class BasePage {
     /**
      * Constructor to initialize BasePage with Playwright Page instance
      * @param page Playwright Page object
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public BasePage(Page page) {
         this.page = page;
@@ -21,7 +21,7 @@ public class BasePage {
     /**
      * Navigate to the specified URL
      * @param url URL to navigate to
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void navigateTo(String url) {
         page.navigate(url);
@@ -30,7 +30,7 @@ public class BasePage {
     /**
      * Wait for element to be visible and click on it
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void click(String selector) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
@@ -41,7 +41,7 @@ public class BasePage {
      * Wait for element to be visible and fill text into it
      * @param selector CSS selector of the element
      * @param text Text to fill
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void fill(String selector, String text) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
@@ -52,7 +52,7 @@ public class BasePage {
      * Wait for element to be visible and get its text content
      * @param selector CSS selector of the element
      * @return Text content of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public String getText(String selector) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
@@ -62,7 +62,7 @@ public class BasePage {
     /**
      * Wait for element to be visible and clear its text
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void clearText(String selector) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
@@ -73,7 +73,7 @@ public class BasePage {
      * Get text content from multiple elements
      * @param selector CSS selector of the elements
      * @return Array of text content from all matching elements
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public String[] getTextFromElements(String selector) {
         page.waitForSelector(selector);
@@ -84,7 +84,7 @@ public class BasePage {
      * Wait for element to be present and check if it is visible
      * @param selector CSS selector of the element
      * @return true if element is visible, false otherwise
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public boolean isVisible(String selector) {
         page.waitForSelector(selector);
@@ -94,7 +94,7 @@ public class BasePage {
     /**
      * Wait for element to be present in DOM
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void waitForSelector(String selector) {
         page.waitForSelector(selector);
@@ -103,7 +103,7 @@ public class BasePage {
     /**
      * Wait for element to be visible
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void waitForVisible(String selector) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
@@ -112,7 +112,7 @@ public class BasePage {
     /**
      * Wait for element to be hidden
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void waitForHidden(String selector) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.HIDDEN));
@@ -121,7 +121,7 @@ public class BasePage {
     /**
      * Wait for specified milliseconds
      * @param milliseconds Time to wait in milliseconds
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void waitForTimeout(int milliseconds) {
         page.waitForTimeout(milliseconds);
@@ -129,7 +129,7 @@ public class BasePage {
 
     /**
      * Wait for page load state to complete
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void waitForLoadState() {
         page.waitForLoadState();
@@ -138,7 +138,7 @@ public class BasePage {
     /**
      * Assert element is visible
      * @param selector CSS selector of the element
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void assertVisible(String selector) {
         assert isVisible(selector) : "Element not visible: " + selector;
@@ -148,7 +148,7 @@ public class BasePage {
      * Assert element text equals expected text
      * @param selector CSS selector of the element
      * @param expectedText Expected text content
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void assertTextEquals(String selector, String expectedText) {
         String actualText = getText(selector);
@@ -159,7 +159,7 @@ public class BasePage {
      * Assert element text contains expected text
      * @param selector CSS selector of the element
      * @param expectedText Expected text to be contained
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void assertTextContains(String selector, String expectedText) {
         String actualText = getText(selector);
@@ -169,7 +169,7 @@ public class BasePage {
     /**
      * Assert page URL equals expected URL
      * @param expectedUrl Expected URL
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void assertUrlEquals(String expectedUrl) {
         String actualUrl = page.url();
@@ -179,7 +179,7 @@ public class BasePage {
     /**
      * Assert page title equals expected title
      * @param expectedTitle Expected page title
-     * @author Prasanna Kumar
+     * @author Sanu B P
      */
     public void assertTitleEquals(String expectedTitle) {
         String actualTitle = page.title();

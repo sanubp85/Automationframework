@@ -143,10 +143,17 @@ public class Hooks {
                 InputStream input = getClass().getClassLoader().getResourceAsStream("environment.properties");
                 Properties prop = new Properties();
                 prop.load(input);
+                input.close();
+
+                // Use ConfigReader as single source of truth — run command values take priority, fallback to environment.properties
+                prop.setProperty("Environment", System.getProperty("env", prop.getProperty("Environment", "qa")).toUpperCase());
+                prop.setProperty("Browser", ConfigReader.getBrowser());
+                prop.setProperty("Retry.Enabled", String.valueOf(ConfigReader.isRetryEnabled()));
+                prop.setProperty("Retry.Count", String.valueOf(ConfigReader.getRetryCount()));
+
                 java.io.FileWriter writer = new java.io.FileWriter("target/allure-results/environment.properties");
                 prop.store(writer, "Environment Information");
                 writer.close();
-                input.close();
                 envInfoWritten = true;
             } catch (Exception e) {
                 e.printStackTrace();
